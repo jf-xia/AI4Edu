@@ -1,0 +1,5 @@
+*
+!.gitignore
+!php.ini
+!php.ini-development
+!Dockerfile

@@ -16,6 +16,12 @@ use Inertia\Inertia;
 |
 */
 
+Route::get('/t', function () {
+//    \Illuminate\Support\Facades\Redis::set('name', 'Taylor');
+//    dd(\Illuminate\Support\Facades\Redis::get('name'));
+    dd(dispatch(new \App\Jobs\ProcessTest()));
+});
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),

@@ -2,24 +2,42 @@ version: '3'
 services:
     nginx:
         image: 'bitnami/nginx:latest'
-        depends_on:
-            - phpfpm
-        networks:
-            - app-tier
         ports:
             - '80:80'
             - '443:443'
         volumes:
-            - './docker/nginx.conf:/opt/bitnami/nginx/conf/server_blocks/nginx.conf'
+            - './docker/nginx/nginx.conf:/opt/bitnami/nginx/conf/server_blocks/nginx.conf'
             - './:/app'
-    phpfpm:
-        image: 'bitnami/php-fpm:8.2.7-debian-11-r5'
+        depends_on:
+            - phpfpm
         networks:
             - app-tier
         restart: always
+    phpfpm:
+        build: './docker/php'
         volumes:
-            - './docker/php.ini${PHP}:/opt/bitnami/php/etc/php.ini'
+            - './docker/php/php.ini${PHP}:/opt/bitnami/php/etc/php.ini'
             - './:/app'
+        networks:
+            - app-tier
+        restart: always
+    redis:
+        image: 'bitnami/redis:latest'
+        environment:
+            - REDIS_PASSWORD=${REDIS_PASSWORD}
+        networks:
+            - app-tier
+        restart: always
+    mariadb:
+        image: 'bitnami/mariadb:latest'
+        environment:
+            - MARIADB_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+            - MARIADB_USER=${DB_USERNAME}
+            - MARIADB_PASSWORD=${DB_PASSWORD}
+            - MARIADB_DATABASE=${DB_DATABASE}
+        networks:
+            - app-tier
+
 networks:
     app-tier:
         driver: bridge
