@@ -1,0 +1,25 @@
+version: '3'
+services:
+    nginx:
+        image: 'bitnami/nginx:latest'
+        depends_on:
+            - phpfpm
+        networks:
+            - app-tier
+        ports:
+            - '80:80'
+            - '443:443'
+        volumes:
+            - './docker/nginx.conf:/opt/bitnami/nginx/conf/server_blocks/nginx.conf'
+            - './:/app'
+    phpfpm:
+        image: 'bitnami/php-fpm:8.2.7-debian-11-r5'
+        networks:
+            - app-tier
+        restart: always
+        volumes:
+            - './docker/php.ini${PHP}:/opt/bitnami/php/etc/php.ini'
+            - './:/app'
+networks:
+    app-tier:
+        driver: bridge
