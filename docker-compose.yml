@@ -6,35 +6,43 @@ services:
             - '80:80'
             - '443:443'
         volumes:
-            - './docker/nginx/nginx.conf:/opt/bitnami/nginx/conf/server_blocks/nginx.conf'
-            - './:/app'
+            - ./docker/nginx/nginx.conf:/opt/bitnami/nginx/conf/server_blocks/nginx.conf
+            - ./:/app
         depends_on:
             - phpfpm
         networks:
             - app-tier
         restart: always
     phpfpm:
-        build: './docker/php'
+        build: ./docker/php
         volumes:
-            - './docker/php/php.ini${PHP}:/opt/bitnami/php/etc/php.ini'
-            - './:/app'
+            - ./docker/php/php.ini${PHP}:/opt/bitnami/php/etc/php.ini
+            - ./:/app
         networks:
             - app-tier
         restart: always
     redis:
         image: 'bitnami/redis:latest'
+        volumes:
+            - ./docker/redis/data:/bitnami/redis/data
         environment:
             - REDIS_PASSWORD=${REDIS_PASSWORD}
+        ports:
+            - '6379:6379'
         networks:
             - app-tier
         restart: always
     mariadb:
         image: 'bitnami/mariadb:latest'
+        volumes:
+            - ./docker/mariadb/data:/bitnami/mariadb
         environment:
             - MARIADB_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
             - MARIADB_USER=${DB_USERNAME}
             - MARIADB_PASSWORD=${DB_PASSWORD}
             - MARIADB_DATABASE=${DB_DATABASE}
+        ports:
+            - '3306:3306'
         networks:
             - app-tier
 

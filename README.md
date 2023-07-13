@@ -11,7 +11,7 @@ The system of AI in education, effectively incorporating ChatGPT and other AI mo
 - Authentication - Breeze
 - Redis Queues - Horizon
 - Log - Telescope
-- UI Test - Dusk
+- Web Test - Dusk
 - A/B Test - Pennant
 - BDD - Behat
 
