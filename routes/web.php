@@ -19,7 +19,20 @@ use Inertia\Inertia;
 Route::get('/t', function () {
 //    \Illuminate\Support\Facades\Redis::set('name', 'Taylor');
 //    dd(\Illuminate\Support\Facades\Redis::get('name'));
-    dd(dispatch(new \App\Jobs\ProcessTest()));
+//    dd(dispatch(new \App\Jobs\ProcessTest()));
+    $client = OpenAI::factory()
+        ->withBaseUri(env('OPENAI_BASE_URL'))
+        ->withHttpHeader('api-key', env('OPENAI_API_KEY'))
+        ->withQueryParam('api-version', '2023-03-15-preview')
+//        ->withHttpClient($client = new \GuzzleHttp\Client([])) // default: HTTP client found using PSR-18 HTTP Client Discovery
+//        ->withStreamHandler(fn (RequestInterface $request): ResponseInterface => $client->send($request, [
+//            'stream' => true // Allows to provide a custom stream handler for the http client.
+//        ]))
+        ->make();
+    $result = $client->completions()->create([
+        'prompt' => 'PHP is'
+    ]);
+    dd($result);
 });
 
 Route::get('/', function () {
