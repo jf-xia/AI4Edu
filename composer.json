@@ -1,10 +1,15 @@
 {
     "name": "jackxia/ai4edu",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "AI in education, effectively incorporating ChatGPT and other AI models by Laravel.",
     "keywords": [
-        "laravel",
-        "framework"
+        "filament",
+        "ChatGPT",
+        "inertia",
+        "codeception",
+        "breeze",
+        "horizon",
+        "laravel"
     ],
     "license": "MIT",
     "require": {
