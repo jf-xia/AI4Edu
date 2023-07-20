@@ -45,6 +45,7 @@ services:
             - '3306:3306'
         networks:
             - app-tier
+        restart: always
 
 networks:
     app-tier:
